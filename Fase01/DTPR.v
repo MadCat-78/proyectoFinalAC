@@ -1,11 +1,11 @@
 module DPTR(
-	input [31:0] PC,
+	input clk,
 	output [31:0] result 
 );
 	wire [31:0] instr;
 
 	MemInst instruction_memory(
-		.address(PC),
+		.address(pcOutput),
 		.instruction(instr)
 	);
 
@@ -84,69 +84,54 @@ module DPTR(
 		.Y(WD)
 	);
 
+	wire [31:0] pcOutput;
+	wire [31:0]muxToPC;
+	wire [31:0]addToMux;
+
+	pc newPC8(
+		.clk(clk),
+		.address(muxToPC),
+		.newAddress(pcOutput)
+	);
+
+	add32b newadd(
+		.a(pcOutput),
+		.b(32'd4),
+		.result(addToMux)
+	);
+
+	MUX2a1 PCsrc(
+		.A(addToMux),
+		.B(32'd0),
+		.sel(1'b0),
+		.Y(muxToPC)
+	);
+
 	assign result = ALUout;
 endmodule
 
+module add32b(
+    input  [31:0] a,
+    input  [31:0] b,
+    output [31:0] result
+);
 
+assign result = a + b;
 
+endmodule
 
+module pc(
+    input wire clk,
+    input wire [31:0] address,
+    output reg [31:0] newAddress
+);
 
+initial begin
+	newAddress=32'b0;
+end
 
+always @(posedge clk) begin
+    newAddress = address;
+end
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+endmodule
