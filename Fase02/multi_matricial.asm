@@ -27,13 +27,25 @@ beq  $t1, $zero, FIN_I   # si no, salir
         LOOP_K:
         slti $t5, $t4, 3      # k < 3 ?
         beq  $t5, $zero, FIN_K   # si no, salir
+            # offset = ((i×3)+j)×4
+            add $t8, $t0, $t0   # 2i
+            add $t8, $t8, $t0   # 3i
 
+            add $t8, $t8, $t2   #+j 
+
+            add $t8, $t8, $t8   # x2
+            add $t8, $t8, $t8   # x4
+            
             addi $t6, $zero, 0     # l = 0
             LOOP_L:
             slti $t7, $t6, 10      # l < 10 ?
             beq  $t7, $zero, FIN_L   # si no, salir
 
             # cuerpo del for
+            // A[i][k] * B[k][j] usando sumas
+                for(int n = 0; n < B[k][j]; n++) {
+                    multiplicacion += A[i][k];
+                }
 
             addi $t6, $t6, 1       # l++
             j LOOP_L
