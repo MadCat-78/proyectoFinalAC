@@ -9,9 +9,11 @@ B:
 .word 6,5,4
 .word 3,2,1
 
+C: .word 0,0,0,0,0,0,0,0,0
+
 addi $s0, $zero, 0  # direccion base de A
 addi $s1, $zero, 36 # direccion base de B
-
+addi $s2, $zero, 72 # direccion base de c
 
 addi $t0, $zero, 0     # i = 0
 LOOP_I:
@@ -27,30 +29,60 @@ beq  $t1, $zero, FIN_I   # si no, salir
         LOOP_K:
         slti $t5, $t4, 3      # k < 3 ?
         beq  $t5, $zero, FIN_K   # si no, salir
-            # offset = ((i×3)+j)×4
-            add $t8, $t0, $t0   # 2i
-            add $t8, $t8, $t0   # 3i
+            # offset = ((k×3)+j)×4
+            add $t8, $t4, $t4   # 2k
+            add $t8, $t8, $t4   # 3k
 
             add $t8, $t8, $t2   #+j 
 
             add $t8, $t8, $t8   # x2
             add $t8, $t8, $t8   # x4
+
+            lw $t9, $t8($s1)    # t9 = B[k][j]
+
+            addi $t10, $zero, 0 # t10 = 0 
             
             addi $t6, $zero, 0     # l = 0
             LOOP_L:
-            slti $t7, $t6, 10      # l < 10 ?
+            slt $t7, $t6, $t9      # l < B[k][j] ?
             beq  $t7, $zero, FIN_L   # si no, salir
+                # offset A[i][k]
+                add $t11, $t0, $t0   # 2i
+                add $t11, $t11, $t0  # 3i
 
-            # cuerpo del for
-            // A[i][k] * B[k][j] usando sumas
-                for(int n = 0; n < B[k][j]; n++) {
-                    multiplicacion += A[i][k];
-                }
+                add $t11, $t11, $t4  # + k
+
+                add $t11, $t11, $t11 # x2
+                add $t11, $t11, $t11 # x4
+
+                add $t11, $s0, $t11
+                lw  $t12, 0($t11)
+
+                add $t10, $t10, $t12
 
             addi $t6, $t6, 1       # l++
             j LOOP_L
             FIN_L:
             nop
+
+            # offset C[i][j]
+            add $t13, $t0, $t0   # 2i
+            add $t13, $t13, $t0  # 3i
+
+            add $t13, $t13, $t2  # + j
+
+            add $t13, $t13, $t13 # x2
+            add $t13, $t13, $t13 # x4
+
+            add $t13, $s2, $t13  # direccion de C[i][j]
+
+            lw  $t14, 0($t13)    # cargar C[i][j]
+
+            add $t14, $t14, $t10 # C[i][j] += multiplicacion
+
+            sw  $t14, 0($t13)    # guardar resultado
+
+            
 
         addi $t4, $t4, 1       # k++
         j LOOP_K
