@@ -1,3 +1,18 @@
+# Declaración de matrices
+A:
+.word 1,2,3
+.word 4,5,6
+.word 7,8,9
+
+B:
+.word 9,8,7
+.word 6,5,4
+.word 3,2,1
+
+addi $s0, $zero, 0  # direccion base de A
+addi $s1, $zero, 36 # direccion base de B
+
+
 addi $t0, $zero, 0     # i = 0
 LOOP_I:
 slti $t1, $t0, 3      # i < 3 ?
