@@ -1,49 +1,41 @@
 addi $t0, $zero, 0     # i = 0
-
 LOOP_I:
-slti $t1, $t0, 10      # i < 10 ?
+slti $t1, $t0, 3      # i < 3 ?
 beq  $t1, $zero, FIN_I   # si no, salir
 
-    addi $t0, $zero, 0     # i = 0
-
+    addi $t2, $zero, 0     # j = 0
     LOOP_J:
-    slti $t1, $t0, 10      # i < 10 ?
-    beq  $t1, $zero, FIN_J   # si no, salir
+    slti $t3, $t2, 3      # j < 3 ?
+    beq  $t3, $zero, FIN_J   # si no, salir
 
-        addi $t0, $zero, 0     # i = 0
-
+        addi $t4, $zero, 0     # k = 0
         LOOP_K:
-        slti $t1, $t0, 10      # i < 10 ?
-        beq  $t1, $zero, FIN_K   # si no, salir
+        slti $t5, $t4, 3      # k < 3 ?
+        beq  $t5, $zero, FIN_K   # si no, salir
 
-            addi $t0, $zero, 0     # i = 0
-
+            addi $t6, $zero, 0     # l = 0
             LOOP_L:
-            slti $t1, $t0, 10      # i < 10 ?
-            beq  $t1, $zero, FIN_L   # si no, salir
+            slti $t7, $t6, 10      # l < 10 ?
+            beq  $t7, $zero, FIN_L   # si no, salir
 
             # cuerpo del for
 
-            addi $t0, $t0, 1       # i++
+            addi $t6, $t6, 1       # l++
             j LOOP_L
-
             FIN_L:
             nop
 
-        addi $t0, $t0, 1       # i++
+        addi $t4, $t4, 1       # k++
         j LOOP_K
-
         FIN_K:
         nop
 
-    addi $t0, $t0, 1       # i++
+    addi $t2, $t2, 1       # j++
     j LOOP_J
-
     FIN_J:
     nop
 
 addi $t0, $t0, 1       # i++
 j LOOP_I
-
 FIN_I:
 nop
