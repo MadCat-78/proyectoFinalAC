@@ -172,7 +172,7 @@ wire [5:0] IDEX_func;
 ID_EX IDEX(
 
 	.clk(clk),
-	.flush(flush)
+	.flush(flush),
 
 	.RegWrite_in(RegWrite),
 	.ALUop_in(ALUop),
