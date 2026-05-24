@@ -1,6 +1,7 @@
 module ID_EX(
 
 	input clk,
+	input flush,
 
 	input RegWrite_in,
 	input [2:0] ALUop_in,
@@ -47,7 +48,25 @@ module ID_EX(
 );
 
 always @(posedge clk) begin
-
+	if (flush) begin
+        RegWrite_out   <= 0;
+        MemToRead_out  <= 0;
+        MemToWrite_out <= 0;
+        MemToReg_out   <= 0;
+        Branch_out     <= 0;
+        ALUSrc_out     <= 0;
+        RegDst_out     <= 0;
+        ALUop_out      <= 3'b000;
+		PC_out      <= 0;
+        RD1_out     <= 0;
+        RD2_out     <= 0;
+        SignImm_out <= 0;
+        rs_out      <= 0;
+        rt_out      <= 0;
+        rd_out      <= 0;
+        func_out    <= 0;
+    end
+    else begin
 	RegWrite_out  <= RegWrite_in;
 	ALUop_out     <= ALUop_in;
 	MemToRead_out <= MemToRead_in;
@@ -68,6 +87,7 @@ always @(posedge clk) begin
 	rd_out <= rd_in;
 
 	func_out <= func_in;
+	end
 
 end
 
