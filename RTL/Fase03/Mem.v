@@ -14,7 +14,12 @@ module Mem(
 
 reg [31:0] mem[0:255];
 
+integer i;
+
 initial begin
+
+	for(i = 0; i < 256; i = i + 1)
+		mem[i] = 0;
 
 	// MATRIZ A
 	mem[0] = 1;
@@ -42,24 +47,22 @@ initial begin
 	mem[16] = 2;
 	mem[17] = 1;
 
-	// MATRIZ C
-	mem[18] = 0;
-	mem[19] = 0;
-	mem[20] = 0;
-	mem[21] = 0;
-	mem[22] = 0;
-	mem[23] = 0;
-	mem[24] = 0;
-	mem[25] = 0;
-	mem[26] = 0;
-
 end
 
 // WRITE
 always @(posedge clk) begin
 
-	if(MemToWrite)
+	if(MemToWrite) begin
+
 		mem[address >> 2] <= dataWrite;
+
+		$display(
+			"WRITE MEM[%d] = %d",
+			address >> 2,
+			dataWrite
+		);
+
+	end
 
 end
 

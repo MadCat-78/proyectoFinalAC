@@ -15,6 +15,20 @@ end
 
 always #5 clk = ~clk;
 
+always @(posedge clk) begin
+
+	$display("--------------------------------");
+
+	$display("PC = %h", uut.PC);
+
+	$display("INSTR = %b", uut.instruction);
+
+	$display("ALUOUT = %d", uut.ALUout);
+
+	$display("ZERO = %b", uut.zeroFlag);
+
+end
+
 initial begin
 
 	$monitor(
@@ -35,8 +49,26 @@ initial begin
 
 	$display("MEM[0] = %d", uut.MEM.mem[0]);
 
-	$finish;
+	
+	$display("MATRIZ C");
 
+	$display("%d %d %d",
+    		uut.MEM.mem[18],
+    		uut.MEM.mem[19],
+	    	uut.MEM.mem[20]);
+
+	$display("%d %d %d",
+    		uut.MEM.mem[21],
+    		uut.MEM.mem[22],
+    		uut.MEM.mem[23]);
+
+	$display("%d %d %d",
+    		uut.MEM.mem[24],
+    		uut.MEM.mem[25],
+    		uut.MEM.mem[26]);
+
+
+	$finish;
 end
 
 endmodule
