@@ -96,11 +96,17 @@ for line in clean:
 
     op = tokens[0]
 
+    #========================
+    # NOP
+    #========================
 
     if op == "nop":
 
         machine.append("0"*32)
 
+    #========================
+    # R TYPE
+    #========================
 
     elif op in R_TYPE:
 
@@ -119,6 +125,9 @@ for line in clean:
 
         machine.append(instr)
 
+    #========================
+    # ADDI ANDI ORI SLTI
+    #========================
 
     elif op in ["addi","andi","ori","slti"]:
 
@@ -135,6 +144,9 @@ for line in clean:
 
         machine.append(instr)
 
+    #========================
+    # LW SW
+    #========================
 
     elif op in ["lw","sw"]:
 
@@ -151,6 +163,9 @@ for line in clean:
 
         machine.append(instr)
 
+    #========================
+    # BEQ
+    #========================
 
     elif op == "beq":
 
@@ -172,6 +187,9 @@ for line in clean:
 
         machine.append(instr)
 
+    #========================
+    # J
+    #========================
 
     elif op == "j":
 
@@ -189,3 +207,8 @@ for line in clean:
     pc += 4
 
 with open("instrucciones.txt","w") as f:
+
+    for m in machine:
+        f.write(m+"\n")
+
+print("Archivo instrucciones.txt generado")
